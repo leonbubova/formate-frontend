@@ -27,7 +27,7 @@ export default function RootLayout({
         <footer className="bottom-0 border-t inset-2x-0 border-zinc-500/10">
           <div className="flex flex-col gap-1 px-6 py-12 mx-auto text-xs text-center text-zinc-700 max-w-7xl lg:px-8">
             <p>
-              Built by{" "}
+              Template built by{" "}
               <Link href="https://twitter.com/chronark_" className="font-semibold duration-150 hover:text-zinc-200">
                 @chronark_
               </Link>
@@ -36,11 +36,11 @@ export default function RootLayout({
                 href="https://github.com/chronark/envshare/graphs/contributors"
                 className="underline duration-150 hover:text-zinc-200"
               >
-                many others{" "}
+                many others
               </Link>
-                and shamelessly stolen by
-              <Link href="https://linkedin.com/in/leonbubova" className="font-semibold duration-150 hover:text-zinc-200">
-                 {" "}me
+               {" "}and shamelessly stolen by{" "}
+              <Link href="https://linkedin.com/in/leonbubova" className="underline duration-150 hover:text-zinc-200">
+                 me
               </Link>
             </p>
             {/*<p>*/}
