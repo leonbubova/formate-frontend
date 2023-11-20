@@ -39,7 +39,7 @@ export default function RootLayout({
                 many others{" "}
               </Link>
                 and shamelessly stolen by
-              <Link href="https://twitter.com/chronark_" className="font-semibold duration-150 hover:text-zinc-200">
+              <Link href="https://linkedin.com/in/leonbubova" className="font-semibold duration-150 hover:text-zinc-200">
                  {" "}me
               </Link>
             </p>
