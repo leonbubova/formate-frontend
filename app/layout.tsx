@@ -22,7 +22,7 @@ export default function RootLayout({
 
         <Header />
 
-        <main className=" min-h-[80vh] ">{children}</main>
+        <main className=" min-h-[100vh] ">{children}</main>
 
         <footer className="bottom-0 border-t inset-2x-0 border-zinc-500/10">
           <div className="flex flex-col gap-1 px-6 py-12 mx-auto text-xs text-center text-zinc-700 max-w-7xl lg:px-8">

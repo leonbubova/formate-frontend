@@ -11,7 +11,7 @@ export default function Home() {
             href="https://github.com/leonbubova/formate-frontend"
             className="text-zinc-400 relative overflow-hidden rounded-full py-1.5 px-4 text-sm leading-6 ring-1 ring-zinc-100/10 hover:ring-zinc-100/30 duration-150"
           >
-            InsertFunnyFormattingWordplay is Open Source on{" "}
+            <span className={"font-bold"}>fix-my-data</span> is Open Source on{" "}
             <span className="font-semibold text-zinc-200">
               GitHub <span aria-hidden="true">&rarr;</span>
             </span>
@@ -37,9 +37,9 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <h2 className="py-4 text-3xl font-bold text-center text-zinc-300 ">Used and trusted by a growing community</h2>
-      <Stats />
-      <Testimonials />
+      {/*<h2 className="py-4 text-3xl font-bold text-center text-zinc-300 ">Used and trusted by a growing community</h2>*/}
+      {/*<Stats />*/}
+      {/*<Testimonials />*/}
     </div>
   );
 }
