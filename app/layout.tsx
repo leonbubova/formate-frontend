@@ -31,25 +31,29 @@ export default function RootLayout({
               <Link href="https://twitter.com/chronark_" className="font-semibold duration-150 hover:text-zinc-200">
                 @chronark_
               </Link>
-              and{" "}
+              {" "}and{" "}
               <Link
                 href="https://github.com/chronark/envshare/graphs/contributors"
                 className="underline duration-150 hover:text-zinc-200"
               >
                 many others{" "}
               </Link>
+                and shamelessly stolen by
+              <Link href="https://twitter.com/chronark_" className="font-semibold duration-150 hover:text-zinc-200">
+                 {" "}me
+              </Link>
             </p>
-            <p>
-              EnvShare is deployed on{" "}
-              <Link target="_blank" href="https://vercel.com" className="underline duration-150 hover:text-zinc-200">
-                Vercel
-              </Link>{" "}
-              and uses{" "}
-              <Link target="_blank" href="https://upstash.com" className="underline duration-150 hover:text-zinc-200">
-                Upstash
-              </Link>{" "}
-              for storing encrypted data.
-            </p>
+            {/*<p>*/}
+            {/*  EnvShare is deployed on{" "}*/}
+            {/*  <Link target="_blank" href="https://vercel.com" className="underline duration-150 hover:text-zinc-200">*/}
+            {/*    Vercel*/}
+            {/*  </Link>{" "}*/}
+            {/*  and uses{" "}*/}
+            {/*  <Link target="_blank" href="https://upstash.com" className="underline duration-150 hover:text-zinc-200">*/}
+            {/*    Upstash*/}
+            {/*  </Link>{" "}*/}
+            {/*  for storing encrypted data.*/}
+            {/*</p>*/}
           </div>
         </footer>
       </body>
