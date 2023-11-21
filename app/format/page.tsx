@@ -11,6 +11,8 @@ import {encrypt} from "pkg/encryption";
 import {ErrorMessage} from "@components/error";
 import {encodeCompositeKey} from "pkg/encoding";
 import {LATEST_KEY_VERSION} from "pkg/constants";
+import axios from 'axios'
+import {resetLogFormatters} from "bs-logger";
 
 export default function Home() {
     const [text, setText] = useState("");
@@ -27,33 +29,29 @@ export default function Home() {
     const [link, setLink] = useState("");
 
     const onSubmit = async () => {
+
+        const baseURL = 'https://w6blwfalrh.execute-api.eu-west-1.amazonaws.com/dev/v1'
+        // const baseURL = 'http://localhost:3000/dev/v1'
+
         setError("");
         setLink("");
-        setLoading(true);
-        const array = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-        for(let i = 0; i < 5; i++) {
-            setOutput("Loading response")
-            setTimeout(() => setOutput("Loading response."), 1000)
-            setTimeout(() => setOutput("Loading response.."), 2000)
-            setTimeout(() => setOutput("Loading response..."), 3000)
-            setTimeout(() => setOutput("Loading response"), 4000)
-            setTimeout(() => setOutput("Loading response."), 5000)
-            setTimeout(() => setOutput("Loading response.."), 6000)
-            setTimeout(() => setOutput("Loading response..."), 7000)
-            setTimeout(() => setOutput("Loading response"), 8000)
-            setTimeout(() => setOutput("Loading response."), 9000)
-            setTimeout(() => setOutput("Loading response.."), 10000)
-            setTimeout(() => setOutput("Loading response..."), 11000)
-            // setTimeout(() => {
-            //     setOutput("Loading response...")
-            //     setTimeout(() => {
-            //         setOutput("Loading response..")
-            //         setTimeout(() => {
-            //             setOutput("Loading response.")
-            //         }, i * 1000)
-            //     }, i * 1000)
-            // },  i * 1000)
-        }
+        setLoading(true)
+
+        axios({
+            method: 'post',
+            url: '/format',
+            data: {
+                input: [input],
+                output: [output]
+            },
+            baseURL,
+            withCredentials: false,
+        }).then((response) => {
+            setOutput(response.data.message)
+            setLoading(false)
+        }).catch(() => {
+            setLoading(false)
+        })
     };
 
     return (
@@ -221,19 +219,23 @@ export default function Home() {
                         <li>
                             <p>
                                 <span
-                                    className="font-semibold text-zinc-400">Input:</span> The data you want to format yada yada...
+                                    className="font-semibold text-zinc-400">Input:</span> The
+                                data you want to format yada yada...
 
                             </p>
                         </li>
                         <li>
                             <p>
                                 <span
-                                    className="font-semibold text-zinc-400">Output format:</span> 3 example rows of the format you want data to be in something something
+                                    className="font-semibold text-zinc-400">Output format:</span> 3
+                                example rows of the format you want data to be
+                                in something something
                                 data, to automatically delete it after a certain
                                 amount of time. 0 means no TTL.
                             </p>
                         </li>
-                        <p>Submitting will output your input data in the desired format.</p>
+                        <p>Submitting will output your input data in the desired
+                            format.</p>
                     </ul>
                 </div>
             </form>
