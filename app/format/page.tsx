@@ -12,7 +12,6 @@ import {ErrorMessage} from "@components/error";
 import {encodeCompositeKey} from "pkg/encoding";
 import {LATEST_KEY_VERSION} from "pkg/constants";
 import axios from 'axios'
-import {resetLogFormatters} from "bs-logger";
 
 export default function Home() {
     const [text, setText] = useState("");
