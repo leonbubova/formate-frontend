@@ -1,57 +1,78 @@
 "use client";
-import {toBase58} from "util/base58";
 import {useState, Fragment} from "react";
 import {
     Cog6ToothIcon,
-    ClipboardDocumentIcon,
-    ClipboardDocumentCheckIcon
 } from "@heroicons/react/24/outline";
 import {Title} from "@components/title";
-import {encrypt} from "pkg/encryption";
 import {ErrorMessage} from "@components/error";
-import {encodeCompositeKey} from "pkg/encoding";
-import {LATEST_KEY_VERSION} from "pkg/constants";
-import axios from 'axios'
+import OpenAI from "openai";
+import * as process from "process";
 
 export default function Home() {
-    const [text, setText] = useState("");
-    const [input, setInput] = useState("");
-    const [output, setOutput] = useState("");
+    const [input, setInput] = useState("01701234567\n" +
+        "01711234567\n" +
+        "01721234567\n" +
+        "01731234567\n" +
+        "01741234567\n" +
+        "01751234567\n" +
+        "01761234567");
+    const [output, setOutput] = useState("+49 170-1234567\n" +
+        "+49 171-1234567\n" +
+        "+49 172-1234567");
     const [reads, setReads] = useState(999);
 
-    const [ttl, setTtl] = useState(7);
-    const [ttlMultiplier, setTtlMultiplier] = useState(60 * 60 * 24);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [copied, setCopied] = useState(false);
-
-    const [link, setLink] = useState("");
 
     const onSubmit = async () => {
-
-        const baseURL = 'https://w6blwfalrh.execute-api.eu-west-1.amazonaws.com/dev/v1'
-        // const baseURL = 'http://localhost:3000/dev/v1'
-
-        setError("");
-        setLink("");
-        setLoading(true)
-
-        axios({
-            method: 'post',
-            url: '/format',
-            data: {
-                input: [input],
-                output: [output]
-            },
-            baseURL,
-            withCredentials: false,
-        }).then((response) => {
-            setOutput(response.data.message)
-            setLoading(false)
-        }).catch(() => {
-            setLoading(false)
-        })
+        callNodeBackend()
     };
+    const callNodeBackend = async () => {
+        async function* getIterableStream(
+            body: ReadableStream<Uint8Array>
+        ): AsyncIterable<string> {
+            const reader = body.getReader()
+            const decoder = new TextDecoder()
+
+            while (true) {
+                const {value, done} = await reader.read()
+                if (done) {
+                    break
+                }
+                const decodedChunk = decoder.decode(value, {stream: true})
+                yield decodedChunk
+            }
+        }
+
+        const generateStream = async (): Promise<AsyncIterable<string>> => {
+            setError("");
+            setLoading(true)
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/format`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({input: input, output: output}),
+                },
+            )
+            if (response.status !== 200) throw new Error(response.status.toString())
+            if (!response.body) throw new Error('Response body does not exist')
+            return getIterableStream(response.body)
+        }
+
+        const stream = await generateStream()
+        setOutput(" ")
+        setLoading(false)
+        let delta = ""
+        for await (const chunk of stream) {
+            console.log(chunk)
+            delta += chunk
+            setOutput(delta)
+        }
+    }
 
     return (
         <div className="container px-8 mx-auto mt-16 lg:mt-32 ">
@@ -62,6 +83,7 @@ export default function Home() {
                     e.preventDefault();
                     if (input.length <= 0) return;
                     onSubmit();
+
                 }}
             >
                 <Title>Format Data</Title>
@@ -99,13 +121,13 @@ export default function Home() {
               <div aria-hidden="true"
                    className="pr-4 font-mono border-r select-none border-zinc-300/5 text-zinc-700">
                 {Array.from({
-                    length: output.split("\n").length,
-                }).map((_, index) => (
-                    <Fragment key={index}>
-                        {(index + 1).toString().padStart(2, "0")}
-                        <br/>
-                    </Fragment>
-                ))}
+                      length: output.split("\n").length,
+                  }).map((_, index) => (
+                      <Fragment key={index}>
+                          {(index + 1).toString().padStart(2, "0")}
+                          <br/>
+                      </Fragment>
+                  ))}
               </div>
 
               <textarea
@@ -227,13 +249,16 @@ export default function Home() {
                             <p>
                                 <span
                                     className="font-semibold text-zinc-400">Output format:</span> 3
-                                example rows of the format you want data to be
+                                example rows of the format you want data to
+                                be
                                 in something something
-                                data, to automatically delete it after a certain
+                                data, to automatically delete it after a
+                                certain
                                 amount of time. 0 means no TTL.
                             </p>
                         </li>
-                        <p>Submitting will output your input data in the desired
+                        <p>Submitting will output your input data in the
+                            desired
                             format.</p>
                     </ul>
                 </div>
