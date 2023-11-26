@@ -43,6 +43,8 @@ export default function Head({title, subtitle}: {
             <meta property="twitter:title" content={title}/>
             <meta property="twitter:description" content={subtitle}/>
             <meta property="twitter:image" content={url.toString()}/>
+
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
         </>
     );
 }
