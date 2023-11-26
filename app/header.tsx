@@ -23,7 +23,7 @@ export const Header: React.FC = () => {
         <div className="flex flex-col items-center justify-between gap-2 pt-6 sm:h-20 sm:flex-row sm:pt-0">
           <Link href="/" className="text-2xl font-semibold duration-150 text-zinc-100 hover:text-white">
             {/*fix_my<span className="font-thin">{"&nbsp;"}</span>data*/}
-            fix<span className="font-thin">{"_"}</span>my<span className="font-thin">{"&nbsp;"}</span>data
+            fix<span className="font-thin">{" "}</span>my<span className="font-thin">{"&nbsp;"}</span>data
           </Link>
           {/* Desktop navigation */}
           <nav className="flex items-center grow">
