@@ -5,7 +5,6 @@ import {
 } from "@heroicons/react/24/outline";
 import {Title} from "@components/title";
 import {ErrorMessage} from "@components/error";
-import OpenAI from "openai";
 import * as process from "process";
 
 export default function Home() {
